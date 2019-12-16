@@ -2,22 +2,22 @@
 # coding=utf-8
 
 
-# https://developers.google.com/resources/api-libraries/documentation/tasks/v1/python/latest/tasks_v1.tasks.html
-
 from __future__ import print_function
-import pickle
+
 import os.path
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
+import pickle
+from pathlib import Path
+
 from google.auth.transport.requests import Request
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/tasks.readonly']
 
-config_location = '/Users/yusup/.config/bitbar'
+home_dir = str(Path.home())
+config_location = f'{home_dir}/.config/bitbar'
 
-
-# tmp_dir = '/tmp'
 
 def urgent_task():
     """Shows basic usage of the Tasks API.
@@ -69,10 +69,14 @@ def urgent_task():
 
     if len(without_due) > 0:
         return without_due[0]['title']
-    return 'No Task'
+    return 'No Urgent Tasks'
 
 
 if __name__ == '__main__':
-    print(urgent_task())
+    try:
+        thing = urgent_task()
+    except Exception as e:
+        thing = str(e)
+    print(thing)
     print('---')
     print('Refresh | refresh=true')
